@@ -7,7 +7,11 @@
 ./gradlew testDebugUnitTest --tests com.droidsentinel.app.domain.hash.FileHasherTest --quiet
 ./gradlew lintDebug --quiet
 ./gradlew assembleDebug --quiet
+./gradlew assembleDebugAndroidTest --quiet
+./gradlew connectedDebugAndroidTest --quiet
 ```
+
+`connectedDebugAndroidTest` needs an emulator or device. The Home smoke in `app/src/androidTest` launches `MainActivity` and asserts the Home title. CI runs that job on an API 29 emulator.
 
 ## Coverage intent
 
