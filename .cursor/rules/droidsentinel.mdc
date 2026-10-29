@@ -1,0 +1,21 @@
+---
+description: Core DroidSentinel architecture, security, and honesty rules
+alwaysApply: true
+---
+
+# DroidSentinel
+
+- Keep signature scanning and metadata analysis as separate engines.
+- Every finding needs evidence, severity, explanation, and a recommended action.
+- Permissions are contextual indicators, never a malware verdict.
+- Do not invent scan percentages, malware family names, or "device is safe" copy.
+- Do not add dependencies, permissions, or network calls unless a feature requires them.
+- Work in small increments and run `./gradlew testDebugUnitTest` after scanner changes.
+
+```kotlin
+// BAD
+status = SignatureScanStatus.NO_MATCH_FOUND // database missing
+
+// GOOD
+status = SignatureScanStatus.DATABASE_UNAVAILABLE
+```

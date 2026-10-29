@@ -1,0 +1,15 @@
+---
+description: Signature scanner result semantics that must stay honest
+globs: **/*Scanner*.kt,**/*Scan*.kt,**/*Hypatia*.kt
+alwaysApply: false
+---
+
+# Scanner semantics
+
+Allowed signature states: `THREAT_DETECTED`, `NO_MATCH_FOUND`, `NOT_SCANNED`, `SCAN_FAILED`, `DATABASE_UNAVAILABLE`, `SCAN_INCOMPLETE`.
+
+- `NO_MATCH_FOUND` only after a verified database completed a scan with no hit.
+- Unreadable APKs are `NOT_SCANNED`, never clean.
+- Exceptions are `SCAN_FAILED`.
+- Cancellation is `SCAN_INCOMPLETE`.
+- Unverified or missing BloomFilters are `DATABASE_UNAVAILABLE`.

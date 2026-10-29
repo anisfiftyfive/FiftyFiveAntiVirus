@@ -1,0 +1,3 @@
+-keep class com.google.common.hash.** { *; }
+-keep class org.bouncycastle.** { *; }
+-dontwarn org.bouncycastle.**
