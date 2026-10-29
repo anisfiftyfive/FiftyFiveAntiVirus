@@ -6,10 +6,11 @@ Committed allow / ask / deny for this repo. Enforcement is `.cursor/hooks/` (`fa
 
 - Read or git-add `local.properties`, `*.jks`, `*.keystore`, `keystore.properties`, `.env`, `secrets.env`, `*.pem`
 - `git --no-verify`, `git push --force`, `rm -rf`, `curl | sh`, `DROP`/`TRUNCATE`, `terraform destroy`, `kubectl delete`
+- `git commit` / `git push` / `git merge` on `main`
 
 ## Ask a human
 
-- Push to `main`
+- Opening or merging a pull request into `main`
 - Changes to `.github/`, `.cursor/hooks*`, `CODEOWNERS`, GPG key, database URLs, Android permissions, or new dependencies
 
 ## Allow

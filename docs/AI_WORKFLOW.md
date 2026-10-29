@@ -8,7 +8,7 @@ Canonical instructions: [`AGENTS.md`](../AGENTS.md). Cursor rules and commands m
 
 - Tooling: Cursor agent + `.cursor/commands/run-checks.md` and `review-security.md`. No extra MCP servers. Do not add `mcp.json`.
 - Dangerous modes: never enable bypass / yolo / `dangerously-skip-permissions`. Hooks in `.cursor/hooks.json` are `failClosed`.
-- Review: PRs use `.github/pull_request_template.md`. CODEOWNERS is `@anisfiftyfive`. Human review is required for scanner, GPG, permissions, and AI config.
+- Review: PRs use `.github/pull_request_template.md`. CODEOWNERS is `@anisfiftyfive`. Human review is required for scanner, GPG, permissions, and AI config. Agents must not commit or push on `main`; AI config (`AGENTS.md`, `.cursor/`, hooks) goes through a pull request.
 
 ## Data agents may see
 

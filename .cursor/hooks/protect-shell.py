@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 import json
 import re
+import subprocess
 import sys
 
 payload = json.load(sys.stdin)
 command = payload.get("command") or ""
+plain = re.sub(r"'[^']*'", " ", command)
+plain = re.sub(r'"[^"]*"', " ", plain)
 
 def deny(user, agent):
     print(json.dumps({
@@ -30,14 +33,14 @@ if re.search(r"local\.properties|\.keystore\b|\.jks\b|keystore\.properties", com
         "A project hook blocked a git command that might commit secrets.",
     )
 
-if re.search(r"\bgit\b", command) and re.search(r"--no-verify\b", command):
+if re.search(r"\bgit\b", plain) and re.search(r"--no-verify\b", plain):
     deny(
         "git --no-verify is blocked for agents.",
         "Do not bypass git hooks. Ask a human if a hook is wrong.",
     )
 
-if re.search(r"\bgit\b", command) and re.search(
-    r"\bpush\b.*(--force|--force-with-lease|\s-f\b|\s-f$)", command
+if re.search(r"\bgit\b", plain) and re.search(
+    r"\bpush\b.*(--force|--force-with-lease|\s-f\b|\s-f$)", plain
 ):
     deny(
         "Force-push is blocked for agents.",
@@ -68,10 +71,26 @@ if re.search(r"curl\s+[^\n|]*\|\s*(ba)?sh", command):
         "Do not run curl | sh.",
     )
 
-if re.search(r"\bgit\b.*\bpush\b", command) and re.search(r"\b(main|master)\b", command):
-    ask(
-        "Confirm push to the default branch.",
-        "Pushing to main requires human confirmation.",
+def current_branch():
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except Exception:
+        return ""
+
+branch = current_branch()
+on_default = branch in {"main", "master"}
+git_mutating = re.search(r"\bgit\b", plain) and re.search(r"\b(commit|push|merge)\b", plain)
+push_default = re.search(r"\bgit\b", plain) and re.search(r"\bpush\b", plain) and re.search(
+    r"\b(origin/)?(main|master)\b", plain
+)
+if (on_default and git_mutating) or push_default:
+    deny(
+        "Direct commits and pushes to main are blocked for agents. Use a feature branch and a pull request.",
+        "Do not commit or push on main. Checkout a branch, push it, and open a PR into anisfiftyfive/FiftyFiveAntiVirus.",
     )
 
 print(json.dumps({"permission": "allow"}))

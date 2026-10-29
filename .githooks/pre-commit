@@ -2,3 +2,8 @@
 set -euo pipefail
 root="$(git rev-parse --show-toplevel)"
 python3 "$root/.githooks/scan-staged.py"
+staged="$(git diff --cached --name-only)"
+if echo "$staged" | grep -Eq '\.(kt|kts|xml)$|build\.gradle\.kts$'; then
+  cd "$root"
+  ./gradlew lintDebug --quiet
+fi
