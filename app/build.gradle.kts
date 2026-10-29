@@ -98,6 +98,11 @@ dependencies {
     testImplementation(libs.guava)
     testImplementation(libs.bouncycastle.bcpg)
     testImplementation(libs.json)
+
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }
 
 tasks.withType<Test> {

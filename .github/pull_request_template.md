@@ -6,6 +6,7 @@ Paste command output or the CI run URL.
 
 - [ ] `./gradlew testDebugUnitTest --quiet`
 - [ ] `./gradlew lintDebug --quiet`
+- [ ] `./gradlew connectedDebugAndroidTest --quiet` (or the CI `ui` job)
 - [ ] Scanner status tests updated if mapping changed
 
 ## AI assistance

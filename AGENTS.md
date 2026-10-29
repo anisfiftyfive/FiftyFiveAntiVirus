@@ -29,7 +29,11 @@ Architecture, directory map, and versions: [docs/ARCHITECTURE.md](docs/ARCHITECT
 ./gradlew testDebugUnitTest --tests <FullyQualifiedTestClass> --quiet
 ./gradlew lintDebug --quiet
 ./gradlew assembleDebug --quiet
+./gradlew assembleDebugAndroidTest --quiet
+./gradlew connectedDebugAndroidTest --quiet
 ```
+
+`connectedDebugAndroidTest` needs an emulator or device. CI runs it on API 29.
 
 Report actual command output. Do not claim tests passed unless they ran.
 
