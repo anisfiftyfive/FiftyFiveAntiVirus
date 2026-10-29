@@ -9,6 +9,7 @@ Canonical instructions: [`AGENTS.md`](../AGENTS.md). Cursor rules and commands m
 - Tooling: Cursor agent + `.cursor/commands/run-checks.md` and `review-security.md`. No extra MCP servers. Do not add `mcp.json`.
 - Dangerous modes: never enable bypass / yolo / `dangerously-skip-permissions`. Hooks in `.cursor/hooks.json` are `failClosed`.
 - Review: PRs use `.github/pull_request_template.md`. CODEOWNERS is `@anisfiftyfive`. Human review is required for scanner, GPG, permissions, and AI config. Agents must not commit or push on `main`; AI config (`AGENTS.md`, `.cursor/`, hooks) goes through a pull request.
+- GitHub ruleset **Protect main** (Active, empty bypass list) targets `main`: restrict deletions, require a pull request (0 extra approvals; solo owner), require status checks `verify` and `ui` (branches up to date), block force-pushes. Do not add bots to the bypass list.
 
 ## Data agents may see
 
@@ -23,7 +24,14 @@ Denied: `local.properties`, keystores, `.env`, APKs, user inventories, Hypatia d
 
 ## Session hygiene and cost
 
-New chat per feature. Plan first for multi-file scanner work. Compact or start over when context is bloated. Gradle commands use `--quiet`. Owner `@anisfiftyfive` reviews Cursor billing weekly; no automated spend webhook is configured yet. Do not enable `OTEL_LOG_USER_PROMPTS`.
+New chat per feature. Plan first for multi-file scanner work. Compact or start over when context is bloated. Gradle commands use `--quiet`. Do not enable `OTEL_LOG_USER_PROMPTS`.
+
+Spend control (Cursor dashboard → **Spending**, owner `@anisfiftyfive`):
+
+- Plan: Cursor **Pro** ($20/mo). Included Cursor Models and Other Models quotas are the monthly cap.
+- **On-demand spending is Disabled.** That is a hard $0 overage cap; extra usage cannot bill beyond the Pro plan.
+- **Monthly Limit** is left Disabled because on-demand is off. Do not set Unlimited on-demand.
+- Owner reviews **Usage** and **Spending** weekly. Cursor Pro does not expose an email spend-webhook on this screen; the disabled on-demand toggle is the alert/cap.
 
 ## Telemetry and failures
 
