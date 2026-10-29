@@ -7,6 +7,7 @@ Canonical instructions: [@AGENTS.md](../../AGENTS.md)
 
 # DroidSentinel
 
+- GitHub account and remote: `anisfiftyfive` / `git@github-anisfiftyfive:anisfiftyfive/FiftyFiveAntiVirus.git` only. Never `3100anre` or NIBE. Never push this code to another repo. Never use `anisfiftyfive` credentials on other repos from this workspace.
 - Keep signature scanning and metadata analysis as separate engines.
 - Every finding needs evidence, severity, explanation, and a recommended action.
 - Permissions are contextual indicators, never a malware verdict.

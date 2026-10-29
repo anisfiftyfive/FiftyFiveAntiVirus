@@ -19,6 +19,11 @@
       {
         "command": ".cursor/hooks/scan-secrets.py",
         "timeout": 10
+      },
+      {
+        "command": ".cursor/hooks/lint-after-edit.py",
+        "timeout": 180,
+        "matcher": "\\.(kt|kts|xml)$"
       }
     ]
   }
