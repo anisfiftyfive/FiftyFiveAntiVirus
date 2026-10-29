@@ -1,25 +1,46 @@
-# AI workflow
+# AI workflow policy
 
-DroidSentinel was specified in a shared ChatGPT thread and implemented in Cursor.
+DroidSentinel is developed in **Cursor** on GitHub `anisfiftyfive/FiftyFiveAntiVirus`. Use the GitHub account **anisfiftyfive** and the team Cursor account only. Do not copy this repo onto a personal shadow remote.
 
-## How context is supplied
+Canonical instructions: [`AGENTS.md`](../AGENTS.md). Cursor rules and commands must point at that file.
 
-- `AGENTS.md` and `.cursor/rules/` are the durable instructions
-- `.cursor/commands/` holds reusable review and check prompts
-- Domain code is small enough to inspect without dumping the whole APK tree
-- Hypatia was cloned to `/tmp` for source inspection; only documented constants live in this repo
+## Tools, MCP, dangerous modes, review
 
-## How work was split
+- Tooling: Cursor agent + `.cursor/commands/run-checks.md` and `review-security.md`. No extra MCP servers. Do not add `mcp.json`.
+- Dangerous modes: never enable bypass / yolo / `dangerously-skip-permissions`. Hooks in `.cursor/hooks.json` are `failClosed`.
+- Review: PRs use `.github/pull_request_template.md`. CODEOWNERS is `@anisfiftyfive`. Human review is required for scanner, GPG, permissions, and AI config.
 
-1. Inspect Hypatia source and license
-2. Scaffold Gradle / Compose
-3. Implement hasher, BloomFilter scanner, metadata engine
-4. Wire UI and history
-5. Add tests, rules, hooks, docs
-6. Run Gradle
+## Data agents may see
 
-## Cost control
+Allowed: source, tests, docs, synthetic hashes in unit tests.
+Denied: `local.properties`, keystores, `.env`, APKs, user inventories, Hypatia database blobs, production dumps. Enforced by `.cursorignore`, `beforeReadFile`, and gitignore. Do not paste those into chats.
 
-- One coding agent
-- No extra MCP servers added for scoring
-- Remote model explanations are off; the in-app advisor is local and evidence-bound
+## Model per task
+
+- Cursor Auto / Composer: UI, glue, docs.
+- A stronger model: scanner status mapping, GPG, BloomFilter adapter.
+- No remote LLM for in-app advisor text. The advisor is local and evidence-bound.
+
+## Session hygiene and cost
+
+New chat per feature. Plan first for multi-file scanner work. Compact or start over when context is bloated. Gradle commands use `--quiet`. Owner `@anisfiftyfive` reviews Cursor billing weekly; no automated spend webhook is configured yet. Do not enable `OTEL_LOG_USER_PROMPTS`.
+
+## Telemetry and failures
+
+Usage telemetry for this project is Cursor’s account dashboard; owner `@anisfiftyfive`. Agent mistakes: GitHub label `ai-bug` plus a note in [`AI_DECISIONS.md`](AI_DECISIONS.md). AI-authored PRs: label `ai-generated`. Outcome: count those labels when reporting.
+
+## IP
+
+AI-generated code in this repository is contributed under AGPL-3.0-or-later. Do not paste proprietary third-party source. Humans remain the committers.
+
+## Cadence and retention
+
+Review `AGENTS.md`, hooks, CODEOWNERS, and this file at least every 90 days. Cursor transcripts stay in the local Cursor product and are not committed. Retention follows Cursor defaults.
+
+## Git hooks
+
+```
+git config core.hooksPath .githooks
+```
+
+Optional: `pre-commit install` for gitleaks from `.pre-commit-config.yaml`.

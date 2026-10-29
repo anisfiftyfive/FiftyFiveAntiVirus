@@ -28,6 +28,16 @@ No storage, contacts, SMS, camera, or accessibility permissions are requested. A
 - Unreadable `/data/app` APKs on some devices
 - User-supplied APKs that are not actually APKs
 
+## Agent data classes
+
+| Class | Agent access |
+| --- | --- |
+| Source, tests, docs | Allowed |
+| Synthetic test hashes | Allowed |
+| `local.properties`, keystores, `.env` | Denied (hooks + `.cursorignore`) |
+| User APKs, inventories, scan history | Not in git; do not paste into chats |
+| Hypatia databases | Downloaded on device; not committed |
+
 ## Misuse
 
 DroidSentinel is not a silent monitor, not an enterprise EDR, and not a tool for attacking other apps.

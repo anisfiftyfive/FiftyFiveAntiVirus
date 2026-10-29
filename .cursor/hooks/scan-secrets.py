@@ -14,16 +14,11 @@ patterns = [
     r"api[_-]?key\s*=\s*['\"][^'\"]{8,}['\"]",
 ]
 
-if path.endswith("local.properties") or path.endswith(".keystore") or path.endswith(".jks"):
-    print(json.dumps({
-        "additional_context": "Edited a secret-bearing file. Do not commit it."
-    }))
-    sys.exit(0)
-
+sensitive = path.endswith("local.properties") or path.endswith(".keystore") or path.endswith(".jks")
 hits = [pattern for pattern in patterns if re.search(pattern, text, re.I)]
-if hits:
+if sensitive or hits:
     print(json.dumps({
-        "additional_context": "Possible secret material was written. Remove credentials from source and keep them in local.properties, which is gitignored."
+        "additional_context": "Possible secret material was written. Remove credentials from source. Do not commit local.properties, keystores, or .env files."
     }))
 else:
     print(json.dumps({}))

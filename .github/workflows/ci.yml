@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Validate AI config
+        run: |
+          python3 -m json.tool .cursor/hooks.json >/dev/null
+          test -s AGENTS.md
+          grep -q 'testDebugUnitTest' AGENTS.md
+          grep -q 'lintDebug' AGENTS.md
+          test -s .github/CODEOWNERS
+          test -s .cursor/permissions.md
+
+      - name: Secret scan
+        run: python3 .githooks/scan-tracked.py
+
+      - name: Unit tests
+        run: ./gradlew testDebugUnitTest --quiet --no-daemon
+
+      - name: Android lint
+        run: ./gradlew lintDebug --quiet --no-daemon
+
+      - name: Assemble debug
+        run: ./gradlew assembleDebug --quiet --no-daemon

@@ -29,11 +29,13 @@ It does **not** claim to replace Play Protect, provide real-time protection, or 
 
 ## Build
 
-JDK 17+, Android SDK with compile SDK 36.
+JDK 17+, Android SDK with compile SDK 36. Agent instructions: [AGENTS.md](AGENTS.md). Architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ```bash
-./gradlew testDebugUnitTest
-./gradlew assembleDebug
+git config core.hooksPath .githooks
+./gradlew testDebugUnitTest --quiet
+./gradlew lintDebug --quiet
+./gradlew assembleDebug --quiet
 ```
 
 The debug APK is written to `app/build/outputs/apk/debug/`.

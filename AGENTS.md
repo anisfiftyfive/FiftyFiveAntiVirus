@@ -1,6 +1,8 @@
 # DroidSentinel agent instructions
 
-Build a privacy-first Android security MVP. Prefer a working, honest scanner over unfinished feature lists.
+Canonical project instructions. Cursor rules import this file. Prefer a working, honest scanner over unfinished feature lists.
+
+Architecture, directory map, and versions: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Security model: [docs/SECURITY_MODEL.md](docs/SECURITY_MODEL.md). AI policy: [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md).
 
 ## Architecture
 
@@ -21,11 +23,31 @@ Build a privacy-first Android security MVP. Prefer a working, honest scanner ove
 ## Build and test
 
 ```
-./gradlew testDebugUnitTest
-./gradlew assembleDebug
+./gradlew testDebugUnitTest --quiet
+./gradlew testDebugUnitTest --tests <FullyQualifiedTestClass> --quiet
+./gradlew lintDebug --quiet
+./gradlew assembleDebug --quiet
 ```
 
 Report actual command output. Do not claim tests passed unless they ran.
+
+## Human approval required
+
+Agents must stop and ask a human before:
+
+- `git push --force`, `git push -f`, or any `--no-verify` git command
+- Changing `.github/`, `.cursor/hooks*`, `CODEOWNERS`, or signing/keystore files
+- Adding dependencies, permissions, or network calls
+- Changing Hypatia GPG key, database URLs, or skipping verification
+- Deploy, release, or publish steps (none are configured)
+
+## AI attribution
+
+If an agent authored the patch, the human committer adds `Co-authored-by: Cursor <cursoragent@cursor.com>` and the PR label `ai-generated`. Failures caused by agent output use label `ai-bug` and a note in [docs/AI_DECISIONS.md](docs/AI_DECISIONS.md).
+
+## Git hooks
+
+After clone: `git config core.hooksPath .githooks` (repo-local only). Pre-commit scans staged files for secrets; pre-push runs `./gradlew testDebugUnitTest --quiet`.
 
 ## Hypatia provenance
 
@@ -35,4 +57,4 @@ Report actual command output. Do not claim tests passed unless they ran.
 
 ## Definition of done
 
-A change is done when it builds, has tests for scanner semantics where behavior changed, keeps evidence and status honest, and does not introduce unnecessary permissions or dependencies.
+A change is done when `./gradlew testDebugUnitTest --quiet` and `./gradlew lintDebug --quiet` have been run, scanner semantics have tests if they changed, evidence and status stay honest, and no extra permissions or dependencies were added.

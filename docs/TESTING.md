@@ -3,8 +3,10 @@
 ## Commands
 
 ```bash
-./gradlew testDebugUnitTest
-./gradlew assembleDebug
+./gradlew testDebugUnitTest --quiet
+./gradlew testDebugUnitTest --tests com.droidsentinel.app.domain.hash.FileHasherTest --quiet
+./gradlew lintDebug --quiet
+./gradlew assembleDebug --quiet
 ```
 
 ## Coverage intent

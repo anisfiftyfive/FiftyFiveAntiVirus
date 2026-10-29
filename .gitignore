@@ -18,4 +18,14 @@ output-metadata.json
 .kotlin
 app/release/
 secrets.env
+.env
+.env.*
+*.pem
 *.log
+
+# Personal AI overrides (team config in AGENTS.md and .cursor/ is committed)
+CLAUDE.local.md
+.claude/settings.local.json
+.cursor/*.local.md
+.cursor/settings.local.json
+.cursorrules.local

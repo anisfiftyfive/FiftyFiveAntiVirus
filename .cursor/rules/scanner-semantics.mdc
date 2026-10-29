@@ -4,6 +4,8 @@ globs: **/*Scanner*.kt,**/*Scan*.kt,**/*Hypatia*.kt
 alwaysApply: false
 ---
 
+Canonical instructions: [@AGENTS.md](../../AGENTS.md)
+
 # Scanner semantics
 
 Allowed signature states: `THREAT_DETECTED`, `NO_MATCH_FOUND`, `NOT_SCANNED`, `SCAN_FAILED`, `DATABASE_UNAVAILABLE`, `SCAN_INCOMPLETE`.

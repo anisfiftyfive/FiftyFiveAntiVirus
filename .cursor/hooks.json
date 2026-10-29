@@ -3,8 +3,16 @@
   "hooks": {
     "beforeShellExecution": [
       {
-        "command": ".cursor/hooks/protect-secrets.sh",
-        "timeout": 10
+        "command": ".cursor/hooks/protect-shell.py",
+        "timeout": 10,
+        "failClosed": true
+      }
+    ],
+    "beforeReadFile": [
+      {
+        "command": ".cursor/hooks/protect-read.py",
+        "timeout": 10,
+        "failClosed": true
       }
     ],
     "afterFileEdit": [

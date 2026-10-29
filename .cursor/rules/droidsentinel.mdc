@@ -3,6 +3,8 @@ description: Core DroidSentinel architecture, security, and honesty rules
 alwaysApply: true
 ---
 
+Canonical instructions: [@AGENTS.md](../../AGENTS.md)
+
 # DroidSentinel
 
 - Keep signature scanning and metadata analysis as separate engines.
